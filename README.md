@@ -1,95 +1,168 @@
-# GA4 E-Commerce Funnel Analytics
+# GA4 E-Commerce Funnel & Customer Journey Analytics
 
-**BigQuery SQL | GA4 | Funnel Analysis | Customer Journey | Power BI | Digital Analytics**
+**BigQuery SQL | GA4 | Funnel Analysis | Power BI | DAX | Digital Analytics**
 
 ## Project Overview
 
-This portfolio project analyses Google Analytics 4 (GA4) e-commerce event data from the Google Merchandise Store to identify conversion drop-offs, channel performance, device behaviour, product performance and customer-journey patterns.
+This portfolio project analyses Google Analytics 4 (GA4) e-commerce event data from the Google Merchandise Store to understand where users leave the purchase journey, how conversion differs across visitor and acquisition segments, and which products convert product interest most effectively.
 
-The project demonstrates an end-to-end digital analytics workflow:
+The project demonstrates an end-to-end analytics workflow:
 
-**GA4 event export → BigQuery SQL → nested/repeated field handling → funnel modelling → customer journey analysis → Power BI dashboard → business recommendations**
+**GA4 event export → BigQuery SQL → nested field handling → session modelling → funnel analysis → segmentation → product analysis → Power BI dashboard → business interpretation**
 
 ## Business Problem
 
-> Where do users drop out of the e-commerce journey, which channels and devices generate the strongest conversion performance, and what actions could improve revenue and purchase completion?
-
-## Planned Funnel
-
-The primary conversion journey will be analysed using GA4 events such as:
-
-`session_start → view_item → add_to_cart → begin_checkout → purchase`
-
-Funnel definitions will be validated against the event names actually present in the sample dataset before final KPIs are reported.
-
-## Business Questions
-
-1. How many users and sessions reach each stage of the purchase funnel?
-2. Where are the largest conversion drop-offs?
-3. Which source / medium combinations generate the strongest purchase conversion?
-4. How does funnel behaviour differ by device category?
-5. Which products and categories generate the most revenue and purchases?
-6. How do new and returning-user journeys differ?
-7. Which user journeys and event sequences most often lead to purchase?
-8. How can these findings be communicated through an interactive Power BI dashboard?
+> Where does conversion weaken across the e-commerce journey, which customer and acquisition segments perform differently, and what evidence should decision-makers investigate further?
 
 ## Data Source
 
 **Source:** Google Analytics BigQuery sample dataset  
 **Property:** Google Merchandise Store  
 **Dataset:** `bigquery-public-data.ga4_obfuscated_sample_ecommerce`  
-**Analysis window available in the sample:** 1 November 2020 to 31 January 2021  
+**Analysis period:** 1 November 2020 to 31 January 2021  
 
-The public dataset contains obfuscated GA4 event-export data. Some values are intentionally replaced or limited, so findings will be treated as portfolio analysis rather than production business reporting.
+The dataset is public and intentionally obfuscated. Findings are therefore presented as portfolio analysis rather than production reporting for Google or the Google Merchandise Store.
+
+## Dataset Profile
+
+- **4,295,584** GA4 event records
+- **270,154** distinct users (`user_pseudo_id`)
+- **92** days of data
+- **354,857** sessions in the Power BI analytical model
+
+## Purchase Funnel
+
+The primary funnel is:
+
+`Session Start → View Item → Add to Cart → Begin Checkout → Purchase`
+
+| Funnel Stage | Sessions | Stage Conversion | Stage Drop-off | Overall Conversion |
+|---|---:|---:|---:|---:|
+| Session Start | 354,857 | — | — | 100.00% |
+| View Item | 75,271 | 21.21% | 78.79% | 21.21% |
+| Add to Cart | 14,909 | 19.81% | 80.19% | 4.20% |
+| Begin Checkout | 10,853 | 72.79% | 27.21% | 3.06% |
+| Purchase | 4,745 | 43.72% | 56.28% | 1.34% |
+
+### Key Funnel Finding
+
+The largest shopping-stage leakage occurs between **View Item and Add to Cart**, where **80.19%** of sessions do not progress to an add-to-cart event. Checkout-to-purchase leakage is also substantial at **56.28%**.
+
+These patterns identify **where** measured progression weakens; they do not establish the causal reason for abandonment.
+
+## Key Business Insights
+
+### 1. Returning visitors convert far more strongly
+
+| Visitor Type | Sessions | Purchase Sessions | Conversion Rate |
+|---|---:|---:|---:|
+| New Visitor | 257,400 | 1,736 | 0.67% |
+| Returning Visitor | 97,457 | 3,009 | 3.09% |
+
+Returning-visitor sessions convert at **3.09% versus 0.67%** for new visitors and generate more purchase sessions despite substantially lower traffic volume.
+
+### 2. Device conversion is relatively consistent
+
+| Device | Sessions | Purchase Sessions | Conversion Rate |
+|---|---:|---:|---:|
+| Desktop | 205,899 | 2,695 | 1.31% |
+| Mobile | 141,079 | 1,949 | 1.38% |
+| Tablet | 7,879 | 101 | 1.28% |
+
+Mobile has the highest observed rate, but the differences are small. Device category should therefore not be presented as a major conversion differentiator in this sample.
+
+### 3. Traffic volume does not automatically mean higher conversion
+
+Selected first-user acquisition results include:
+
+- `google / organic`: **111,488 sessions**, **1.10%** conversion
+- `(direct) / (none)`: **82,362 sessions**, **1.29%** conversion
+- `shop.googlemerchandisestore… / referral`: **28,044 sessions**, **2.02%** conversion
+- `google / cpc`: **15,534 sessions**, **0.97%** conversion
+
+Obfuscated values such as `<Other>` and `(data deleted)` are retained transparently but are not used for specific marketing recommendations.
+
+### 4. Product popularity and product conversion are different
+
+Examples from the product analysis:
+
+- **Super G Unisex Joggers**: 227 purchase sessions, **1.24%** view-to-purchase rate
+- **Google Camp Mug Ivory**: 181 purchase sessions, **5.68%** view-to-purchase rate
+- **Google Clear Pen 4-Pack**: **4.78%** view-to-purchase rate
+- **Google Campus Bike**: **4.74%** view-to-purchase rate
+
+This separates products that win through traffic volume from products that convert product interest more efficiently.
+
+## Power BI Dashboard
+
+The final Power BI dashboard contains:
+
+- KPI cards for Sessions, Purchase Sessions, Conversion Rate, Revenue and Revenue per Session
+- Interactive date, device and visitor-type slicers
+- E-commerce funnel visual
+- Daily purchase and conversion trend
+- New vs Returning Visitor performance
+- Device conversion comparison
+- First-user acquisition source performance
+- Daily revenue trend
+- Executive-style Key Insights panel
+
+### Dashboard KPIs
+
+- **Total Sessions:** 354,857
+- **Purchase Sessions:** 4,745
+- **Purchase Conversion Rate:** 1.34%
+- **Total Revenue:** approximately **$352.83K**
+- **Revenue per Session:** approximately **$0.99**
+
+The dashboard revenue is scoped to the same session population used by the funnel: sessions with a non-null GA4 session ID and an observed `session_start` event.
 
 ## Skills Demonstrated
 
 ### BigQuery SQL
+
 - Wildcard tables and `_TABLE_SUFFIX`
-- `UNNEST()` for repeated GA4 records
+- `UNNEST()` for repeated GA4 fields
 - Event-parameter extraction
 - CTEs
 - Conditional aggregation
-- Window functions
-- User- and session-level analysis
-- Funnel conversion calculations
-- Traffic-source segmentation
-- Device segmentation
-- Product-level analysis
+- Window functions including `LAG()`
+- Session-level modelling
+- Funnel conversion and drop-off analysis
+- Device and acquisition segmentation
+- Product-level item analysis
+- Revenue aggregation
 
 ### GA4 / Digital Analytics
+
 - Event-based measurement
-- Ecommerce event analysis
-- Funnel design
 - Session and user behaviour
-- Acquisition analysis
-- Conversion-rate analysis
-- Customer-journey interpretation
+- E-commerce funnel design
+- Conversion analysis
+- First-user acquisition analysis
+- New vs Returning Visitor segmentation
+- Product performance interpretation
 
 ### Power BI
+
 - Power Query
-- Data modelling
+- Session-level data modelling
 - DAX measures
 - Funnel visualisation
-- Channel and device analysis
-- Product performance reporting
+- Combo charts and time-series analysis
 - Interactive slicers
-- Executive dashboard design
+- KPI design
+- Executive dashboard layout
 
-## Planned Analysis Workflow
+## Methodology Notes
 
-1. Connect to the public GA4 sample dataset in BigQuery.
-2. Profile event volume, users, dates and event names.
-3. Inspect nested `event_params` and repeated `items` fields.
-4. Build a clean session- and event-level analytical layer using SQL.
-5. Define and validate funnel stages.
-6. Calculate user and session conversion rates and stage drop-offs.
-7. Segment funnel performance by traffic source, medium and device.
-8. Analyse purchases, revenue, products and categories.
-9. Explore customer journeys using ordered event sequences and window functions.
-10. Export curated analysis tables for Power BI.
-11. Build an interactive e-commerce funnel dashboard.
-12. Summarise commercial insights and optimisation opportunities.
+The main funnel is a **session-event-presence funnel**. A session is counted at a stage when that event appears within the session; the current portfolio model does **not** enforce strict chronological event ordering.
+
+`traffic_source.source` and `traffic_source.medium` are treated as **first-user acquisition** attributes, not session-level traffic source.
+
+A session containing `first_visit` is classified as **New Visitor**; sessions without it are classified as **Returning Visitor** for this portfolio analysis.
+
+For full methodological detail and limitations, see [`docs/methodology_and_limitations.md`](docs/methodology_and_limitations.md).
 
 ## Repository Structure
 
@@ -100,11 +173,21 @@ ga4-ecommerce-funnel-analytics/
 ├── data/
 │   └── README.md
 ├── sql/
-│   ├── README.md
-│   └── 01_dataset_profile.sql
+│   ├── 01_dataset_profile.sql
+│   ├── 02_event_profile.sql
+│   ├── 03_session_funnel.sql
+│   ├── 04_funnel_conversion_metrics.sql
+│   ├── 05_device_conversion.sql
+│   ├── 06_acquisition_source_conversion.sql
+│   ├── 07_new_vs_returning_conversion.sql
+│   ├── 08_product_performance.sql
+│   ├── 09_daily_trends.sql
+│   └── 10_power_bi_export.sql
 ├── docs/
 │   ├── project_plan.md
-│   └── data_dictionary.md
+│   ├── data_dictionary.md
+│   ├── validated_findings.md
+│   └── methodology_and_limitations.md
 ├── dashboard/
 │   └── README.md
 └── images/
@@ -113,7 +196,7 @@ ga4-ecommerce-funnel-analytics/
 
 ## Project Status
 
-🟡 **In development — repository and analytical plan initialized. BigQuery exploration is the next stage.**
+✅ **Complete — BigQuery analysis, validated funnel metrics and Power BI dashboard completed.**
 
 ## Author
 
