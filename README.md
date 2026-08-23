@@ -21,7 +21,7 @@ The project demonstrates an end-to-end analytics workflow:
 **Dataset:** `bigquery-public-data.ga4_obfuscated_sample_ecommerce`  
 **Analysis period:** 1 November 2020 to 31 January 2021  
 
-The dataset is public and intentionally obfuscated. Findings are therefore presented as portfolio analysis rather than production reporting for Google or the Google Merchandise Store.
+The dataset is public and intentionally obfuscated. Findings are presented as portfolio analysis rather than production reporting for Google or the Google Merchandise Store.
 
 ## Dataset Profile
 
@@ -31,8 +31,6 @@ The dataset is public and intentionally obfuscated. Findings are therefore prese
 - **354,857** sessions in the Power BI analytical model
 
 ## Purchase Funnel
-
-The primary funnel is:
 
 `Session Start → View Item → Add to Cart → Begin Checkout → Purchase`
 
@@ -44,15 +42,11 @@ The primary funnel is:
 | Begin Checkout | 10,853 | 72.79% | 27.21% | 3.06% |
 | Purchase | 4,745 | 43.72% | 56.28% | 1.34% |
 
-### Key Funnel Finding
-
-The largest shopping-stage leakage occurs between **View Item and Add to Cart**, where **80.19%** of sessions do not progress to an add-to-cart event. Checkout-to-purchase leakage is also substantial at **56.28%**.
-
-These patterns identify **where** measured progression weakens; they do not establish the causal reason for abandonment.
+The largest shopping-stage leakage occurs between **View Item and Add to Cart**, where **80.19%** of sessions do not progress to an add-to-cart event. Checkout-to-purchase leakage is also substantial at **56.28%**. These patterns identify where measured progression weakens; they do not establish the causal reason for abandonment.
 
 ## Key Business Insights
 
-### 1. Returning visitors convert far more strongly
+### Returning visitors convert far more strongly
 
 | Visitor Type | Sessions | Purchase Sessions | Conversion Rate |
 |---|---:|---:|---:|
@@ -61,7 +55,7 @@ These patterns identify **where** measured progression weakens; they do not esta
 
 Returning-visitor sessions convert at **3.09% versus 0.67%** for new visitors and generate more purchase sessions despite substantially lower traffic volume.
 
-### 2. Device conversion is relatively consistent
+### Device conversion is relatively consistent
 
 | Device | Sessions | Purchase Sessions | Conversion Rate |
 |---|---:|---:|---:|
@@ -69,11 +63,9 @@ Returning-visitor sessions convert at **3.09% versus 0.67%** for new visitors an
 | Mobile | 141,079 | 1,949 | 1.38% |
 | Tablet | 7,879 | 101 | 1.28% |
 
-Mobile has the highest observed rate, but the differences are small. Device category should therefore not be presented as a major conversion differentiator in this sample.
+Mobile has the highest observed rate, but the differences are small. Device category should not be presented as a major conversion differentiator in this sample.
 
-### 3. Traffic volume does not automatically mean higher conversion
-
-Selected first-user acquisition results include:
+### Traffic volume does not automatically mean higher conversion
 
 - `google / organic`: **111,488 sessions**, **1.10%** conversion
 - `(direct) / (none)`: **82,362 sessions**, **1.29%** conversion
@@ -82,30 +74,20 @@ Selected first-user acquisition results include:
 
 Obfuscated values such as `<Other>` and `(data deleted)` are retained transparently but are not used for specific marketing recommendations.
 
-### 4. Product popularity and product conversion are different
+### Product popularity and product conversion are different
 
-Examples from the product analysis:
-
-- **Super G Unisex Joggers**: 227 purchase sessions, **1.24%** view-to-purchase rate
-- **Google Camp Mug Ivory**: 181 purchase sessions, **5.68%** view-to-purchase rate
-- **Google Clear Pen 4-Pack**: **4.78%** view-to-purchase rate
-- **Google Campus Bike**: **4.74%** view-to-purchase rate
+- **Super G Unisex Joggers:** 227 purchase sessions, **1.24%** view-to-purchase rate
+- **Google Camp Mug Ivory:** 181 purchase sessions, **5.68%** view-to-purchase rate
+- **Google Clear Pen 4-Pack:** **4.78%** view-to-purchase rate
+- **Google Campus Bike:** **4.74%** view-to-purchase rate
 
 This separates products that win through traffic volume from products that convert product interest more efficiently.
 
 ## Power BI Dashboard
 
-The final Power BI dashboard contains:
+![GA4 E-Commerce Funnel & Customer Journey Analytics Dashboard](images/ga4_ecommerce_dashboard.png.png)
 
-- KPI cards for Sessions, Purchase Sessions, Conversion Rate, Revenue and Revenue per Session
-- Interactive date, device and visitor-type slicers
-- E-commerce funnel visual
-- Daily purchase and conversion trend
-- New vs Returning Visitor performance
-- Device conversion comparison
-- First-user acquisition source performance
-- Daily revenue trend
-- Executive-style Key Insights panel
+The final Power BI dashboard includes KPI cards, date/device/visitor slicers, an e-commerce funnel, purchase and conversion trends, visitor and device comparisons, acquisition-source performance, daily revenue, and an executive Key Insights panel.
 
 ### Dashboard KPIs
 
@@ -120,12 +102,10 @@ The dashboard revenue is scoped to the same session population used by the funne
 ## Skills Demonstrated
 
 ### BigQuery SQL
-
 - Wildcard tables and `_TABLE_SUFFIX`
 - `UNNEST()` for repeated GA4 fields
 - Event-parameter extraction
-- CTEs
-- Conditional aggregation
+- CTEs and conditional aggregation
 - Window functions including `LAG()`
 - Session-level modelling
 - Funnel conversion and drop-off analysis
@@ -134,7 +114,6 @@ The dashboard revenue is scoped to the same session population used by the funne
 - Revenue aggregation
 
 ### GA4 / Digital Analytics
-
 - Event-based measurement
 - Session and user behaviour
 - E-commerce funnel design
@@ -144,7 +123,6 @@ The dashboard revenue is scoped to the same session population used by the funne
 - Product performance interpretation
 
 ### Power BI
-
 - Power Query
 - Session-level data modelling
 - DAX measures
@@ -191,7 +169,8 @@ ga4-ecommerce-funnel-analytics/
 ├── dashboard/
 │   └── README.md
 └── images/
-    └── README.md
+    ├── README.md
+    └── ga4_ecommerce_dashboard.png.png
 ```
 
 ## Project Status
