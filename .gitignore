@@ -1,0 +1,21 @@
+# Local / raw exports
+data/raw/
+data/exports/
+*.csv
+
+# Power BI temporary files
+*.tmp
+~$*.pbix
+
+# Python / notebooks if used later
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
