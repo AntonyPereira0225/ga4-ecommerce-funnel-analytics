@@ -85,9 +85,11 @@ This separates products that win through traffic volume from products that conve
 
 ## Power BI Dashboard
 
-![GA4 E-Commerce Funnel & Customer Journey Analytics Dashboard](images/ga4_ecommerce_dashboard.png.png)
+![GA4 E-Commerce Funnel & Customer Journey Analytics Dashboard](images/ga4_ecommerce_dashboard.png)
 
-The final Power BI dashboard includes KPI cards, date/device/visitor slicers, an e-commerce funnel, purchase and conversion trends, visitor and device comparisons, acquisition-source performance, daily revenue, and an executive Key Insights panel.
+The final Power BI dashboard includes KPI cards, date/device/visitor slicers, an e-commerce funnel, purchase and conversion trends, visitor and device comparisons, first-user acquisition performance, daily revenue, and an executive Key Insights panel.
+
+**Power BI file:** [`dashboard/GA4_Ecommerce_Funnel_Analytics.pbix`](dashboard/GA4_Ecommerce_Funnel_Analytics.pbix)
 
 ### Dashboard KPIs
 
@@ -142,6 +144,10 @@ A session containing `first_visit` is classified as **New Visitor**; sessions wi
 
 For full methodological detail and limitations, see [`docs/methodology_and_limitations.md`](docs/methodology_and_limitations.md).
 
+## Data Handling
+
+The raw GA4 event dataset is not duplicated in GitHub. It remains publicly accessible through BigQuery, and the repository includes the complete SQL workflow needed to reproduce the analysis. The final Power BI `.pbix` contains the session-level analytical model used by the dashboard.
+
 ## Repository Structure
 
 ```text
@@ -167,10 +173,11 @@ ga4-ecommerce-funnel-analytics/
 │   ├── validated_findings.md
 │   └── methodology_and_limitations.md
 ├── dashboard/
-│   └── README.md
+│   ├── README.md
+│   └── GA4_Ecommerce_Funnel_Analytics.pbix
 └── images/
     ├── README.md
-    └── ga4_ecommerce_dashboard.png.png
+    └── ga4_ecommerce_dashboard.png
 ```
 
 ## Project Status
