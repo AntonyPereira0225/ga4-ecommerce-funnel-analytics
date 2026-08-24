@@ -1,13 +1,20 @@
 # Power BI Dashboard
 
-The final Power BI dashboard will be added here after the BigQuery analysis has been validated.
+The completed interactive Power BI report is included in this folder:
 
-Planned dashboard sections:
+- `GA4_Ecommerce_Funnel_Analytics.pbix`
 
-- Funnel KPI cards
-- Funnel stage conversion and drop-off
-- Source / medium performance
-- Device conversion analysis
-- Product and revenue analysis
-- Customer-journey insights
-- Interactive date, channel and device filters
+The dashboard is built from the session-level analytical export produced by `sql/10_power_bi_export.sql` and includes:
+
+- Total Sessions, Purchase Sessions, Conversion Rate, Total Revenue and Revenue per Session KPIs
+- E-commerce conversion funnel
+- Daily purchase and conversion trends
+- New vs Returning Visitor performance
+- Device conversion performance
+- First-user acquisition performance
+- Daily revenue trend
+- Interactive date, device and visitor filters
+
+A portfolio screenshot is available at `images/ga4_ecommerce_dashboard.png`.
+
+The `.pbix` file is included so reviewers can inspect the Power BI data model, DAX measures and interactive dashboard design.
