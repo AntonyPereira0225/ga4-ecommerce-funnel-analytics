@@ -1,6 +1,8 @@
 -- Daily funnel and revenue trends
 -- Source: Google Analytics 4 obfuscated sample e-commerce dataset
 -- Period: 2020-11-01 to 2021-01-31
+-- Scope: sessions with a non-null ga_session_id and an observed session_start event,
+-- matching the Power BI analytical cohort.
 
 WITH base AS (
   SELECT
@@ -56,33 +58,16 @@ session_events AS (
 
 SELECT
   session_date,
-
-  COUNTIF(session_started = 1) AS sessions,
-
-  COUNTIF(
-    session_started = 1
-    AND viewed_item = 1
-  ) AS product_view_sessions,
-
-  COUNTIF(
-    session_started = 1
-    AND added_to_cart = 1
-  ) AS add_to_cart_sessions,
-
-  COUNTIF(
-    session_started = 1
-    AND began_checkout = 1
-  ) AS checkout_sessions,
-
-  COUNTIF(
-    session_started = 1
-    AND purchased = 1
-  ) AS purchase_sessions,
+  COUNT(*) AS sessions,
+  COUNTIF(viewed_item = 1) AS product_view_sessions,
+  COUNTIF(added_to_cart = 1) AS add_to_cart_sessions,
+  COUNTIF(began_checkout = 1) AS checkout_sessions,
+  COUNTIF(purchased = 1) AS purchase_sessions,
 
   ROUND(
     100 * SAFE_DIVIDE(
-      COUNTIF(session_started = 1 AND purchased = 1),
-      COUNTIF(session_started = 1)
+      COUNTIF(purchased = 1),
+      COUNT(*)
     ),
     2
   ) AS purchase_conversion_rate_pct,
@@ -90,6 +75,8 @@ SELECT
   ROUND(SUM(revenue_usd), 2) AS revenue_usd
 
 FROM session_events
+
+WHERE session_started = 1
 
 GROUP BY session_date
 
